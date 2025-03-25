@@ -19,7 +19,7 @@ contract CIKList {
     }
 
     mapping(uint256 => CIK) cik;
-    mapping(uint256 => uint256) public apkToTxid;
+    mapping(uint256 => uint256) public pkToTxid;
 
     constructor() {
         TA = msg.sender;
@@ -35,13 +35,13 @@ contract CIKList {
     function Update(Uint512 memory APK1, uint256 txid) public returns (bool) {
         require(msg.sender == TA, "Only the TA can update the mapping");
         uint256 index = uint256(keccak256(abi.encode(APK1.high, APK1.low)));
-        apkToTxid[index] = txid;
+        pkToTxid[index] = txid;
         return true;
     }
     
     function GetTxid(Uint512 memory APK1) public view returns (uint256) {
         uint256 index = uint256(keccak256(abi.encode(APK1.high, APK1.low)));
-        return apkToTxid[index];
+        return pkToTxid[index];
     }
 
     function Check(Uint512 memory CIK1, Uint512 memory CIK2) public view returns (bool) {
@@ -67,8 +67,8 @@ contract CIKList {
     function DeleteMapping(Uint512 memory APK1) public returns (bool) {
         require(msg.sender == TA, "Only the TA can delete the APK-to-txid mapping");
         uint256 index = uint256(keccak256(abi.encode(APK1.high, APK1.low)));
-        if (apkToTxid[index] != 0) {
-            delete apkToTxid[index];
+        if (pkToTxid[index] != 0) {
+            delete pkToTxid[index];
             return true;
         }
         return false;
