@@ -19,7 +19,6 @@ contract CIKList {
     }
 
     mapping(uint256 => CIK) cik;
-    mapping(uint256 => APK) apk;
     mapping(uint256 => uint256) public apkToTxid;
 
     constructor() {
